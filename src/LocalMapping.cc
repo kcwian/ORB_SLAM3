@@ -27,6 +27,7 @@
 #include<mutex>
 #include<chrono>
 
+int cnt = 0;
 namespace ORB_SLAM3
 {
 
@@ -246,9 +247,13 @@ void LocalMapping::Run()
             vdLBASync_ms.push_back(timeKFCulling_ms);
             vdKFCullingSync_ms.push_back(timeKFCulling_ms);
 #endif
-
+           //static int cnt = 0;
+    //       std::cout << "Cnt: " << cnt << std::endl;
+      //     if (cnt++ > 150){
+           //if((cnt++ > 150 && cnt < 200) || (cnt > 500 && cnt <800)){
             mpLoopCloser->InsertKeyFrame(mpCurrentKeyFrame);
-
+//            cout << "Adding keyframe" << endl;
+        //   }
 #ifdef REGISTER_TIMES
             std::chrono::steady_clock::time_point time_EndLocalMap = std::chrono::steady_clock::now();
 
@@ -839,7 +844,6 @@ bool LocalMapping::Stop()
         cout << "Local Mapping STOP" << endl;
         return true;
     }
-
     return false;
 }
 
@@ -857,6 +861,7 @@ bool LocalMapping::stopRequested()
 
 void LocalMapping::Release()
 {
+    cnt =9999;
     unique_lock<mutex> lock(mMutexStop);
     unique_lock<mutex> lock2(mMutexFinish);
     if(mbFinished)
